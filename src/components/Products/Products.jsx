@@ -1,9 +1,4 @@
-import {
-  CircularProgress,
-  Grid,
-  LinearProgress,
-  Typography,
-} from '@material-ui/core';
+import { CircularProgress, Grid, Typography } from '@material-ui/core';
 import Product from './Product/Product';
 import useStyles from './styles';
 

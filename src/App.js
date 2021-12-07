@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navbar, Products } from './components/index';
+import { Cart, Navbar, Products } from './components/index';
 import { commerce } from './services/commerce';
 import './App.css';
 
@@ -37,22 +37,33 @@ function App() {
   const handleAddToCart = async (productId, quantity) => {
     try {
       const item = await commerce.cart.add(productId, quantity);
-      //console.log('Item ', item);
+      console.log('Item ', item);
       setCart(item.cart);
     } catch (error) {
       setError(true);
     }
   };
 
-  // end additional methods //
+  const handleUpdateCartQuantity = async (productId, quantity) => {
+    try {
+      const { cart } = await commerce.cart.update(productId, { quantity });
+      setCart(cart);
+      console.log(cart);
+    } catch (error) {
+      setError(error);
+    }
+  };
 
+  // end additional methods //
+  console.log('On App.js cart', cart);
   //# Temporary Solution to handle Connection Error #//
   if (error) return <p>Connection Error... Refresh the page!</p>;
 
   return (
     <div className="App">
       <Navbar totalItems={cart.total_items} />
-      <Products products={products} onAddToCart={handleAddToCart} />
+      {/* <Products products={products} onAddToCart={handleAddToCart} /> */}
+      <Cart cart={cart} onUpdateCartQuantity={handleUpdateCartQuantity} />
     </div>
   );
 }
