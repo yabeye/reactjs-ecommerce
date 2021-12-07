@@ -4,7 +4,7 @@ import CartItem from './CartItem/CartItem';
 
 import useStyle from './styles';
 
-function Cart({ cart, onUpdateCartQuantity }) {
+function Cart({ cart, onUpdateCartQuantity, onRemoveFromCart, onEmptyCart }) {
   const classes = useStyle();
   const EmptyCart = () => (
     <div>
@@ -37,7 +37,11 @@ function Cart({ cart, onUpdateCartQuantity }) {
       <Grid container justifyContent="center" spacing={3}>
         {cart.line_items.map((item) => (
           <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-            <CartItem item={item} onUpdateCartQuantity={onUpdateCartQuantity} />
+            <CartItem
+              item={item}
+              onUpdateCartQuantity={onUpdateCartQuantity}
+              onRemoveFromCart={onRemoveFromCart}
+            />
           </Grid>
         ))}
       </Grid>
@@ -52,6 +56,7 @@ function Cart({ cart, onUpdateCartQuantity }) {
             color="secondary"
             size="large"
             className={classes.emptyButton}
+            onClick={() => onEmptyCart()}
           >
             EMPITY CART
           </Button>
@@ -72,7 +77,8 @@ function Cart({ cart, onUpdateCartQuantity }) {
   return (
     <Container>
       <div className={classes.toolbar} />
-      {cart.line_items && (cart.line_items === 0 ? EmptyCart() : FilledCart())}
+      {cart.line_items &&
+        (cart.line_items.length === 0 ? EmptyCart() : FilledCart())}
       {!cart.line_items && <p>getting your cart ...</p>}
     </Container>
   );

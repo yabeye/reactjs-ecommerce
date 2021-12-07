@@ -38,7 +38,6 @@ function App() {
   const handleAddToCart = async (productId, quantity) => {
     try {
       const item = await commerce.cart.add(productId, quantity);
-      console.log('Item ', item);
       setCart(item.cart);
     } catch (error) {
       setError(true);
@@ -49,14 +48,32 @@ function App() {
     try {
       const { cart } = await commerce.cart.update(productId, { quantity });
       setCart(cart);
-      console.log(cart);
+      //console.log(cart);
     } catch (error) {
       setError(error);
     }
   };
 
+  const handleRemoveFromCart = async (productId) => {
+    try {
+      const { cart } = await commerce.cart.remove(productId);
+      setCart(cart);
+    } catch (error) {
+      setError(true);
+    }
+  };
+
+  const handleEmptyCart = async () => {
+    try {
+      const { cart } = await commerce.cart.empty();
+      setCart(cart);
+    } catch (error) {
+      setError(true);
+    }
+  };
+
   // end additional methods //
-  console.log('On App.js cart', cart);
+
   //# Temporary Solution to handle Connection Error #//
   if (error) return <p>Connection Error... Refresh the page!</p>;
 
@@ -69,7 +86,12 @@ function App() {
             <Products products={products} onAddToCart={handleAddToCart} />
           </Route>
           <Route path="/cart" exact>
-            <Cart cart={cart} onUpdateCartQuantity={handleUpdateCartQuantity} />
+            <Cart
+              cart={cart}
+              onUpdateCartQuantity={handleUpdateCartQuantity}
+              onRemoveFromCart={handleRemoveFromCart}
+              onEmptyCart={handleEmptyCart}
+            />
           </Route>
         </Switch>
       </div>
