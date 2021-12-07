@@ -7,10 +7,12 @@ import {
 } from '@material-ui/core';
 import { ShoppingCart } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import useStyles from './styles';
 
 function Navbar({ totalItems }) {
   const classes = useStyles();
+  const location = useLocation();
   return (
     <>
       <AppBar color="inherit" className={classes.appBar} position="fixed">
@@ -19,11 +21,13 @@ function Navbar({ totalItems }) {
             Ecommerce
           </Typography>
           <div className={classes.grow} />
-          <IconButton component={Link} to="/cart" color="inherit">
-            <Badge badgeContent={totalItems} color="secondary">
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
+          {location.pathname === '/' && (
+            <IconButton component={Link} to="/cart" color="inherit">
+              <Badge badgeContent={totalItems} color="secondary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
     </>
