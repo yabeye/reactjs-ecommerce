@@ -6,6 +6,7 @@ import {
   Badge,
 } from '@material-ui/core';
 import { ShoppingCart } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 import useStyles from './styles';
 
 function Navbar({ totalItems }) {
@@ -18,7 +19,7 @@ function Navbar({ totalItems }) {
             Ecommerce
           </Typography>
           <div className={classes.grow} />
-          <IconButton color="inherit">
+          <IconButton component={Link} to="/cart" color="inherit">
             <Badge badgeContent={totalItems} color="secondary">
               <ShoppingCart />
             </Badge>

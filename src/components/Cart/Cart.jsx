@@ -1,4 +1,5 @@
 import { Button, Container, Grid, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import CartItem from './CartItem/CartItem';
 
 import useStyle from './styles';
@@ -8,8 +9,18 @@ function Cart({ cart, onUpdateCartQuantity }) {
   const EmptyCart = () => (
     <div>
       <div className={classes.toolbar} />
-      <Typography>You have no items in the cart, Add </Typography>
-      <Button>Go To Home</Button>
+      <Typography gutterBottom variant="h5">
+        You have no items in your shopping cart.Start adding some.{' '}
+      </Typography>
+      <Button
+        component={Link}
+        to="/"
+        size="large"
+        variant="contained"
+        color="primary"
+      >
+        Go To Home
+      </Button>
     </div>
   );
 

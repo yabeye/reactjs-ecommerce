@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Cart, Navbar, Products } from './components/index';
 import { commerce } from './services/commerce';
 import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 function App() {
   // state variables //
@@ -60,11 +61,19 @@ function App() {
   if (error) return <p>Connection Error... Refresh the page!</p>;
 
   return (
-    <div className="App">
-      <Navbar totalItems={cart.total_items} />
-      {/* <Products products={products} onAddToCart={handleAddToCart} /> */}
-      <Cart cart={cart} onUpdateCartQuantity={handleUpdateCartQuantity} />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Navbar totalItems={cart.total_items} />
+        <Switch>
+          <Route path="/" exact>
+            <Products products={products} onAddToCart={handleAddToCart} />
+          </Route>
+          <Route path="/cart" exact>
+            <Cart cart={cart} onUpdateCartQuantity={handleUpdateCartQuantity} />
+          </Route>
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
