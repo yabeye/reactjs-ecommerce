@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 import { Navbar, Products } from './components/index';
 import { commerce } from './services/commerce';
+import './App.css';
 
 function App() {
   // state variables //
@@ -32,13 +32,27 @@ function App() {
     fetchCart();
   }, []);
 
-  // Temporary Solution to handle Connection Error //
+  // additional methods //
+
+  const handleAddToCart = async (productId, quantity) => {
+    try {
+      const item = await commerce.cart.add(productId, quantity);
+      //console.log('Item ', item);
+      setCart(item.cart);
+    } catch (error) {
+      setError(true);
+    }
+  };
+
+  // end additional methods //
+
+  //# Temporary Solution to handle Connection Error #//
   if (error) return <p>Connection Error... Refresh the page!</p>;
 
   return (
     <div className="App">
       <Navbar totalItems={cart.total_items} />
-      <Products products={products} />
+      <Products products={products} onAddToCart={handleAddToCart} />
     </div>
   );
 }

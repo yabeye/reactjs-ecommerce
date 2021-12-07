@@ -7,7 +7,7 @@ import {
 import Product from './Product/Product';
 import useStyles from './styles';
 
-function Products({ products }) {
+function Products({ products, onAddToCart }) {
   const classes = useStyles();
 
   if (products.length === 0) {
@@ -30,7 +30,7 @@ function Products({ products }) {
       <Grid container justifyContent="center" spacing={4}>
         {products.map((product) => (
           <Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
-            <Product product={product} />
+            <Product product={product} onAddToCart={onAddToCart} />
           </Grid>
         ))}
       </Grid>
