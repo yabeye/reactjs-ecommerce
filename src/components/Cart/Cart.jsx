@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Container, Grid, Typography } from '@material-ui/core';
 import CartItem from './CartItem/CartItem';
 
 import useStyle from './styles';
@@ -30,15 +30,40 @@ function Cart({ cart, onUpdateCartQuantity }) {
           </Grid>
         ))}
       </Grid>
+      <div className={classes.cardDetails}>
+        <Typography gutterBottom variant="h5">
+          SubTotal: ${cart.subtotal.formatted}
+        </Typography>
+        <div>
+          <Button
+            variant="outlined"
+            type="button"
+            color="secondary"
+            size="large"
+            className={classes.emptyButton}
+          >
+            EMPITY CART
+          </Button>
+          <Button
+            variant="contained"
+            type="button"
+            color="primary"
+            size="large"
+            className={classes.checkoutButton}
+          >
+            CHECKOUT
+          </Button>
+        </div>
+      </div>
     </>
   );
 
   return (
-    <>
+    <Container>
       <div className={classes.toolbar} />
       {cart.line_items && (cart.line_items === 0 ? EmptyCart() : FilledCart())}
-      {!cart.line_items && <p>Loading...</p>}
-    </>
+      {!cart.line_items && <p>getting your cart ...</p>}
+    </Container>
   );
 }
 

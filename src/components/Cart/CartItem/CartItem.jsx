@@ -49,7 +49,7 @@ function CartItem({ item, onUpdateCartQuantity }) {
             +
           </Button>
         </div>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" size="small" color="secondary">
           Remove
         </Button>
       </CardActions>
