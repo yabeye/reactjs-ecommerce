@@ -7,21 +7,33 @@ function App() {
   // state variables //
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
+  const [error, setError] = useState(false);
 
   // end state variables //
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await commerce.products.list();
-      console.log(data);
-      setProducts(data);
+      try {
+        const { data } = await commerce.products.list();
+        //console.log(data);
+        setProducts(data);
+      } catch (error) {
+        setError(true);
+      }
     };
     const fetchCart = async () => {
-      setCart(await commerce.cart.retrieve());
+      try {
+        setCart(await commerce.cart.retrieve());
+      } catch (error) {
+        setError(true);
+      }
     };
     fetchProducts();
     fetchCart();
   }, []);
+
+  // Temporary Solution to handle Connection Error //
+  if (error) return <p>Connection Error... Refresh the page!</p>;
 
   return (
     <div className="App">
