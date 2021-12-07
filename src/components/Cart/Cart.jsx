@@ -61,6 +61,8 @@ function Cart({ cart, onUpdateCartQuantity, onRemoveFromCart, onEmptyCart }) {
             EMPITY CART
           </Button>
           <Button
+            component={Link}
+            to="/checkout"
             variant="contained"
             type="button"
             color="primary"

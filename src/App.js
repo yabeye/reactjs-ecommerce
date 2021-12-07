@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Cart, Navbar, Products } from './components/index';
+import { Cart, Checkout, Navbar, Products } from './components/index';
 import { commerce } from './services/commerce';
 import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -9,6 +9,8 @@ function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
   const [error, setError] = useState(false);
+  const [order, setOrder] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
 
   // end state variables //
 
@@ -71,7 +73,28 @@ function App() {
       setError(true);
     }
   };
+  const refreshCart = async () => {
+    const newCart = await commerce.cart.refresh();
 
+    setCart(newCart);
+  };
+
+  const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+    try {
+      const incomingOrder = await commerce.checkout.capture(
+        checkoutTokenId,
+        newOrder
+      );
+      console.log('incoming Order', incomingOrder);
+      setOrder(incomingOrder);
+
+      refreshCart();
+    } catch (error) {
+      //console.log('Error happedned at hadle CaptureCheckout!');
+      refreshCart(); // just to make sure the transcation completed!
+      setErrorMessage(error.data.error.message);
+    }
+  };
   // end additional methods //
 
   //# Temporary Solution to handle Connection Error #//
@@ -91,6 +114,14 @@ function App() {
               onUpdateCartQuantity={handleUpdateCartQuantity}
               onRemoveFromCart={handleRemoveFromCart}
               onEmptyCart={handleEmptyCart}
+            />
+          </Route>
+          <Route path="/checkout" exact>
+            <Checkout
+              cart={cart}
+              order={order}
+              onCaptureCheckout={handleCaptureCheckout}
+              error={errorMessage}
             />
           </Route>
         </Switch>
